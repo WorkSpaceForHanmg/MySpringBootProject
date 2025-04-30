@@ -10,7 +10,7 @@ public class ProdConfig {
     @Bean
     public CustomerVO customerVO(){
         return CustomerVO.builder()
-                .mode("운영 환경")
+                .mode("운영환경")
                 .rate(0.8)
                 .build();
     }

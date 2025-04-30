@@ -1,6 +1,7 @@
 package com.basic.myspringboot.runner;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.basic.myspringboot.config.CustomerVO;
 import com.basic.myspringboot.property.MybootProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,8 @@ public class MyRunner implements ApplicationRunner {
     @Autowired
     private MybootProperties properties;
 
+    @Autowired
+    private CustomerVO customerVO;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -36,6 +39,8 @@ public class MyRunner implements ApplicationRunner {
         System.out.println("MybootProperties getName() "+ properties.getName());
         System.out.println("MybootProperties getAge() "+ properties.getAge());
         System.out.println("MybootProperties getFullName()() "+ properties.getFullName());
+
+        System.out.println("현재 활성화된 CustomerVO Bean "+ customerVO);
 
         //foo 라는 VM 아규먼트가 있는지 확인
         System.out.println("VM 아규먼트 foo : " + args.containsOption("foo"));
