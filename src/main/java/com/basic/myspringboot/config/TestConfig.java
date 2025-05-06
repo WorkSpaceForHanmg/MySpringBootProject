@@ -14,4 +14,9 @@ public class TestConfig {
                 .rate(0.5)
                 .build();
     }
+
+    @Bean
+    public MyEnvironment myEnvironment() {
+        return MyEnvironment.builder().mode("개발환경").build();
+    }
 }
