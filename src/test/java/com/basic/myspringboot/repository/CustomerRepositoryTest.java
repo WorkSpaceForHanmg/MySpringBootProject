@@ -22,6 +22,38 @@ class CustomerRepositoryTest {
     CustomerRepository customerRepository;
 
     @Test
+    @Rollback(value = false)
+    void testDeleteCustomer(){
+        Customer customer = customerRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Customer Not Found"));
+        customerRepository.delete(customer);
+    }
+
+
+    @Test
+    @Rollback(value = false)
+    void testUpdateCustomer(){
+        Customer customer = customerRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Customer Not Found"));
+        //수정하려면 Entity의 Setter method를 호출한다.
+        //
+        customer.setCustomerName("SpringBoot");
+        //customerRepository.save(customer);        //dirty read : save를 호출하지 않고도 DB에 저장되었다. Why? @Transactional 때문에
+        assertThat(customer.getCustomerName()).isEqualTo("SpringBoot");
+    }
+
+
+    @Test
+    void testByNotFoundException(){
+        //<X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
+        //Supplier 의 추상메서드 T get()
+        Customer customer = customerRepository.findByCustomerId("A004")
+                .orElseThrow(() -> new RuntimeException("Customer Not Found"));
+//        assertThat(customer.getCustomerId()).isEqualTo("A001");
+    }
+
+
+    @Test
     void testFindBy() {
         Optional<Customer> optionalCustomer = customerRepository.findById(1L);
 //        assertThat(optionalCustomer).isNotEmpty();
