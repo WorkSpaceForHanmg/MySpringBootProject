@@ -1,0 +1,23 @@
+package com.basic.myspringboot.config.controller;
+
+
+import com.basic.myspringboot.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+//@Controller + @ResponseBody
+@RestController
+@RequiredArgsConstructor
+//final 인 변수를 초기화하는 생성자를 자동으로 생성해주는 역할을 하는 롬복 어노테이션
+@RequestMapping("/api/users")
+public class UserRestController {
+    private final UserRepository userRepository;
+
+    //Constructor Injection
+//    public UserRestController(UserRepository userRepository) {
+//        System.out.println(">>> UserController " + userRepository.getClass().getName());
+//        this.userRepository = userRepository;
+//    }                                     <<<주석인 이유는 @RequiredArgsConstructor 덕분에 앞으로 새로 추가 되도 이런 구절이 필요없음
+
+}
