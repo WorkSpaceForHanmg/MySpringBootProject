@@ -14,8 +14,4 @@ public class ProdConfig {
                 .rate(0.8)
                 .build();
     }
-    @Bean
-    public MyEnvironment myEnvironment() {
-        return MyEnvironment.builder().mode("운영환경").build();
-    }
 }

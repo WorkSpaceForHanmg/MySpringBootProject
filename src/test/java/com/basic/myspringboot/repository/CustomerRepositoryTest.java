@@ -24,7 +24,7 @@ class CustomerRepositoryTest {
     @Test
     @Rollback(value = false)
     void testDeleteCustomer() {
-        Customer customer = customerRepository.findById(1L)  //Optional<Customer>
+        Customer customer = customerRepository.findById(10L)  //Optional<Customer>
                 .orElseThrow(() -> new RuntimeException("Customer Not Found"));
         customerRepository.delete(customer);
     }
@@ -39,7 +39,7 @@ class CustomerRepositoryTest {
         //update customers set customer_id=?,customer_name=? where id=? (@DynamicUpdate 적용전)
         //update customers set customer_name=? where id=? (@DynamicUpdate 적용후)
         customer.setCustomerName("홍길동");
-        //customerRepository.save(customer);  //dirty read : save를 호출하지 않고도 DB에 저장되었다. Why? @Transactional 때문에
+        //customerRepository.save(customer);
         assertThat(customer.getCustomerName()).isEqualTo("홍길동");
     }
 
