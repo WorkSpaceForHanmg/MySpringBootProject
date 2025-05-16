@@ -12,15 +12,15 @@ import lombok.*;
 @Getter @Setter
 //Non-Owner(종속) 양방향관계
 public class Student {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
     private Long id;
-    
+
     @Column(nullable = false)
     private String name;
-    
+
     @Column(unique = true, nullable = false)
     private String studentNumber;
 
@@ -30,5 +30,9 @@ public class Student {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "student", cascade = CascadeType.ALL)
     private StudentDetail studentDetail;
 
+    //N:1 Student와 Department 관계에서 N쪽에 해당하는 Student가 Owner이다.
+    //FK 에 와 매핑되는 필드
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="department_id")
     private Department department;
 }
