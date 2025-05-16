@@ -16,9 +16,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("SELECT s FROM Student s JOIN FETCH s.studentDetail WHERE s.id = :id")
     Optional<Student> findByIdWithStudentDetail(@Param("id") Long id);
-
+    
+    //중복체크
     boolean existsByStudentNumber(String studentNumber);
-
+    
+    
+    //Student 에 속한 Detail,학과 정보
     @Query("SELECT s FROM Student s LEFT JOIN FETCH s.studentDetail LEFT JOIN FETCH s.department WHERE s.id = :id")
     Optional<Student> findByIdWithAllDetails(@Param("id") Long id);
 
