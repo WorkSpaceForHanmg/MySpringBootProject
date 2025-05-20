@@ -3,6 +3,7 @@ package com.basic.myspringboot.controller.dto;
 import com.basic.myspringboot.entity.Student;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-//StudentDTO
 public class StudentDTO {
 
     @Data
@@ -26,6 +26,9 @@ public class StudentDTO {
         @NotBlank(message = "Student number is required")
         @Size(max = 20, message = "Student number cannot exceed 20 characters")
         private String studentNumber;
+
+        @NotNull(message = "Department ID is required")
+        private Long departmentId;
 
         @Valid
         private StudentDetailDTO detailRequest;
@@ -58,9 +61,14 @@ public class StudentDTO {
         private Long id;
         private String name;
         private String studentNumber;
+        private DepartmentDTO.SimpleResponse department;
         private StudentDetailResponse detail;
 
         public static Response fromEntity(Student student) {
+            DepartmentDTO.SimpleResponse departmentResponse = student.getDepartment() != null
+                    ? DepartmentDTO.SimpleResponse.fromEntity(student.getDepartment())
+                    : null;
+
             StudentDetailResponse detailResponse = student.getStudentDetail() != null
                     ? StudentDetailResponse.builder()
                     .id(student.getStudentDetail().getId())
@@ -75,7 +83,26 @@ public class StudentDTO {
                     .id(student.getId())
                     .name(student.getName())
                     .studentNumber(student.getStudentNumber())
+                    .department(departmentResponse)
                     .detail(detailResponse)
+                    .build();
+        }
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class SimpleResponse {
+        private Long id;
+        private String name;
+        private String studentNumber;
+
+        public static SimpleResponse fromEntity(Student student) {
+            return SimpleResponse.builder()
+                    .id(student.getId())
+                    .name(student.getName())
+                    .studentNumber(student.getStudentNumber())
                     .build();
         }
     }
